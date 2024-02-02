@@ -21,7 +21,7 @@ import * as qs from "querystring";
 
   const message = core.getInput("message") ?? "티켓사세요";
 
-  const webhook = new IncomingWebhook(webhookUrl);
+  // const webhook = new IncomingWebhook(webhookUrl);
 
   const res = await axios({
     method: "POST",
@@ -46,7 +46,17 @@ import * as qs from "querystring";
       prodId: productId,
     })}`;
 
-    await webhook.send(`${message} ${link}`);
+    // await webhook.send(`${message} ${link}`);
+
+    await axios({
+      method: "POST",
+      url: "https://api.telegram.org/bot6763782060:AAFX_-xI_zUwDwM18DiqpHYFuf6B_KUZOig/sendMessage",
+      data: qs.stringify({
+        text: `${message} ${link}`,
+        chat_id: 305842045,
+      }),
+    });
+
   }
 })().catch((e) => {
   console.error(e.stack); // tslint:disable-line

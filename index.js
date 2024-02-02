@@ -20,7 +20,7 @@ const qs = require("querystring");
         return value;
     });
     const message = (_a = core.getInput("message")) !== null && _a !== void 0 ? _a : "티켓사세요";
-    const webhook = new webhook_1.IncomingWebhook(webhookUrl);
+    // const webhook = new webhook_1.IncomingWebhook(webhookUrl);
     const res = await axios_1.default({
         method: "POST",
         url: "https://ticket.melon.com/tktapi/product/seatStateInfo.json",
@@ -41,7 +41,15 @@ const qs = require("querystring");
         const link = `http://ticket.melon.com/performance/index.htm?${qs.stringify({
             prodId: productId,
         })}`;
-        await webhook.send(`${message} ${link}`);
+        // await webhook.send(`${message} ${link}`);
+        await axios({
+            method: "POST",
+            url: "https://api.telegram.org/bot6763782060:AAFX_-xI_zUwDwM18DiqpHYFuf6B_KUZOig/sendMessage",
+            data: qs.stringify({
+              text: `${message} ${link}`,
+              chat_id: 305842045,
+            }),
+          });
     }
 })().catch((e) => {
     console.error(e.stack); // tslint:disable-line
